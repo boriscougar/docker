@@ -1,5 +1,7 @@
 FROM php:7.1-apache
 
+ENV PORT 8080
+
 # install the PHP extensions we need
 
 RUN set -ex; \
@@ -50,4 +52,5 @@ VOLUME /usr/src/microweber/userfiles
 VOLUME /usr/src/microweber/config
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["apache2-foreground"]
+#CMD ["apache2-foreground"]
+CMD sed -i "s/80/$PORT/g" /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf && docker-php-entrypoint apache2-foreground
